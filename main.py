@@ -1,12 +1,13 @@
-import os
 import requests
 from pathlib import Path
+from os.path import splitext
 from pprint import pprint
 from urllib.parse import urlparse
 
 
 def get_extension(url):
-    return os.path.splitext(url)[-1]
+    _, extension = splitext(urlparse(url).path)
+    return extension
 
 
 def save_image(url, path, image_title):
@@ -34,4 +35,6 @@ def fetch_spacex_last_launch():
             return
 
 
-fetch_spacex_last_launch()
+# fetch_spacex_last_launch()
+# fetch_nasa_20_images()
+

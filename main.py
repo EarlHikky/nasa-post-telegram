@@ -1,8 +1,8 @@
 import requests
 import re
+import logging
 from pathlib import Path
 from os.path import splitext
-from os.path import split as splittitle
 from pprint import pprint
 from urllib.parse import urlparse
 from environs import Env
@@ -13,11 +13,13 @@ def get_extension(url):
     return extension
 
 
-def save_image(url, path, image_title):
-    response = requests.get(url)
+def save_image(url, path, image_title, params=None):
+    response = requests.get(url, params=params)
+    response.raise_for_status()
     extension = get_extension(url)
     with open(f'{path}/{image_title}{extension}', 'wb') as file:
         file.write(response.content)
+    return None
 
 
 def fetch_spacex_last_launch():
@@ -34,12 +36,12 @@ def fetch_spacex_last_launch():
             for index, image_url in enumerate(images, 1):
                 image_title = f'spacex{index}'
                 save_image(image_url, path, image_title)
-            return
+            return None
 
 
-def fetch_nasa_images():
+def fetch_nasa_images(NASA_API_KEY):
     url = 'https://api.nasa.gov/planetary/apod'
-    params = {'api_key': env('NASA_API_KEY'), 'count': 10}
+    params = {'api_key': NASA_API_KEY, 'count': 10}
     response = requests.get(url, params=params)
     response.raise_for_status()
     images = response.json()
@@ -50,10 +52,35 @@ def fetch_nasa_images():
             Path(path).mkdir(parents=True, exist_ok=True)
             image_title = re.sub(r'\W', '', image['title'])
             save_image(url, path, image_title)
+    return None
 
 
-env = Env()
-env.read_env()
+def fetch_nasa_epic_images(NASA_API_KEY):
+    params = {'api_key': NASA_API_KEY}
+    url = 'https://api.nasa.gov/EPIC/api/natural'
+    response = requests.get(url, params=params)
+    response.raise_for_status()
+    response_json = response.json()
+    images = response_json[:9] if not len(response_json) <= 9 else response_json
+    for image in images:
+        year, month, day = image['date'].split()[0].split('-')
+        image_title = image['image']
+        epic_url = f'https://api.nasa.gov/EPIC/archive/natural/{year}/{month}/{day}/png/{image_title}.png'
+        path = './images/nasa_epic'
+        Path(path).mkdir(parents=True, exist_ok=True)
+        save_image(epic_url, path, image_title, params)
+    return None
 
-fetch_spacex_last_launch()
-fetch_nasa_images()
+
+def main():
+    logging.basicConfig(level=logging.DEBUG)
+    env = Env()
+    env.read_env()
+    NASA_API_KEY = env('NASA_API_KEY')
+    fetch_spacex_last_launch()
+    fetch_nasa_images(NASA_API_KEY)
+    fetch_nasa_epic_images(NASA_API_KEY)
+
+
+if __name__ == '__main__':
+    main()

@@ -5,11 +5,15 @@ from pprint import pprint
 from urllib.parse import urlparse
 
 
+def get_extension(url):
+    return os.path.splitext(url)[-1]
+
+
 def save_image(url, path, image_title):
     response = requests.get(url)
-    ext = os.path.splitext(url)[-1]
+    extension = get_extension(url)
     Path(path).mkdir(parents=True, exist_ok=True)
-    with open(f'{path}/{image_title}{ext}', 'wb') as file:
+    with open(f'{path}/{image_title}{extension}', 'wb') as file:
         file.write(response.content)
 
 

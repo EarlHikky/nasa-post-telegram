@@ -31,5 +31,15 @@ python space_pictures_telegram_bot.py "id чата в Telegram"
 ``` 
 - По умолчанию задан период отправки в 4 часа. Для изменения можно добавить аргумент `--p "количество часов"  ` 
 - Для отправки конкретного файла используется аргумент `--f "путь к файлу"`
+```
+python fetch_nasa_epic_images.py 
+``` 
+```
+python fetch_nasa_images.py
+``` 
+```
+python fetch_spacex_images.py
+```
+
 ## Цели проекта
 Код написан в учебных целях — это урок в курсе по Python и веб-разработке на сайте Devman.

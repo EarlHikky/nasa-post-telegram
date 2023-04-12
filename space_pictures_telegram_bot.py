@@ -29,7 +29,6 @@ def main():
     else:
         with open(path_file, 'rb') as mediafile:
             bot.send_photo(chat_id=chat_id, photo=mediafile)
-            return None
 
 
 if __name__ == '__main__':

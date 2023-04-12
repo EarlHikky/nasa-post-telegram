@@ -21,18 +21,20 @@ def main():
 
 
 def send_image(bot, path_file, chat_id, send_period):
-    if not path_file:
-        while True:
-            for root, dirs, files in os.walk('./images'):
-                if files:
-                    random.shuffle(files)
-                    for file in files:
-                        with open(f'{os.path.join(root, file)}', 'rb') as mediafile:
-                            bot.send_photo(chat_id=chat_id, photo=mediafile)
-                        time.sleep(send_period)
-    else:
+    if path_file:
         with open(path_file, 'rb') as mediafile:
             bot.send_photo(chat_id=chat_id, photo=mediafile)
+            return
+
+    while True:
+        for root, dirs, files in os.walk('./images'):
+            if not files:
+                continue
+            random.shuffle(files)
+            for file in files:
+                with open(f'{os.path.join(root, file)}', 'rb') as mediafile:
+                    bot.send_photo(chat_id=chat_id, photo=mediafile)
+                time.sleep(send_period)
 
 
 if __name__ == '__main__':

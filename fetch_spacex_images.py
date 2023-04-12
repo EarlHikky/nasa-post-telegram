@@ -17,18 +17,6 @@ def fetch_spacex_launch(launch_id):
         get_images(launch, images)
 
 
-def find_spacex_launch_photo():
-    """Allow to find and download images in previous launches"""
-    url = 'https://api.spacexdata.com/v5/launches/'
-    response = requests.get(url)
-    response.raise_for_status()
-    launches = response.json()
-    for launch in launches[-1::-1]:
-        images = launch['links']['flickr']['original']
-        if images:
-            get_images(launch, images)
-
-
 def get_images(launch, images):
     flight_number = launch['flight_number']
     path = f'./images/spacex/{flight_number}'

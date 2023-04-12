@@ -12,7 +12,8 @@ def fetch_nasa_epic_images(nasa_api_key):
     response = requests.get(url, params=params)
     response.raise_for_status()
     nasa_response_data = response.json()
-    images = nasa_response_data[:9] if not len(nasa_response_data) <= 9 else nasa_response_data
+    limit_images = 9
+    images = nasa_response_data[:limit_images]
     for image in images:
         year, month, day = image['date'].split()[0].split('-')
         image_title = image['image']

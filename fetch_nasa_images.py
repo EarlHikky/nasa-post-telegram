@@ -9,7 +9,8 @@ from nasa_api_utils import save_image
 def fetch_nasa_images(nasa_api_key):
     """Allow to download random images from NASA API"""
     url = 'https://api.nasa.gov/planetary/apod'
-    params = {'api_key': nasa_api_key, 'count': 40}
+    limit_images = 40
+    params = {'api_key': nasa_api_key, 'count': limit_images}
     response = requests.get(url, params=params)
     response.raise_for_status()
     images = response.json()

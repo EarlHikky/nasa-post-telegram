@@ -5,9 +5,9 @@ from environs import Env
 from nasa_api_utils import save_image
 
 
-def fetch_nasa_epic_images(NASA_API_KEY):
+def fetch_nasa_epic_images(nasa_api_key):
     """Allow to download EPIC latest images from NASA API"""
-    params = {'api_key': NASA_API_KEY}
+    params = {'api_key': nasa_api_key}
     url = 'https://api.nasa.gov/EPIC/api/natural'
     response = requests.get(url, params=params)
     response.raise_for_status()
@@ -26,8 +26,8 @@ def fetch_nasa_epic_images(NASA_API_KEY):
 def main():
     env = Env()
     env.read_env()
-    NASA_API_KEY = env('NASA_API_KEY')
-    fetch_nasa_epic_images(NASA_API_KEY)
+    nasa_api_key = env('nasa_api_key')
+    fetch_nasa_epic_images(nasa_api_key)
 
 
 if __name__ == '__main__':

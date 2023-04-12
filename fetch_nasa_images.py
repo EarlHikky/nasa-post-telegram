@@ -6,10 +6,10 @@ from environs import Env
 from nasa_api_utils import save_image
 
 
-def fetch_nasa_images(NASA_API_KEY):
+def fetch_nasa_images(nasa_api_key):
     """Allow to download random images from NASA API"""
     url = 'https://api.nasa.gov/planetary/apod'
-    params = {'api_key': NASA_API_KEY, 'count': 40}
+    params = {'api_key': nasa_api_key, 'count': 40}
     response = requests.get(url, params=params)
     response.raise_for_status()
     images = response.json()
@@ -26,8 +26,8 @@ def fetch_nasa_images(NASA_API_KEY):
 def main():
     env = Env()
     env.read_env()
-    NASA_API_KEY = env('NASA_API_KEY')
-    fetch_nasa_images(NASA_API_KEY)
+    nasa_api_key = env('nasa_api_key')
+    fetch_nasa_images(nasa_api_key)
 
 
 if __name__ == '__main__':

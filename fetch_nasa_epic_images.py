@@ -21,13 +21,12 @@ def fetch_nasa_epic_images(nasa_api_key):
         path = f"./images/nasa_epic/{image['date'].split()[0]}"
         Path(path).mkdir(parents=True, exist_ok=True)
         save_image(epic_url, path, image_title, params)
-    return None
 
 
 def main():
     env = Env()
     env.read_env()
-    nasa_api_key = env('nasa_api_key')
+    nasa_api_key = env('NASA_API_KEY')
     fetch_nasa_epic_images(nasa_api_key)
 
 

@@ -27,7 +27,7 @@ def fetch_nasa_images(nasa_api_key):
 def main():
     env = Env()
     env.read_env()
-    nasa_api_key = env('nasa_api_key')
+    nasa_api_key = env('NASA_API_KEY')
     fetch_nasa_images(nasa_api_key)
 
 

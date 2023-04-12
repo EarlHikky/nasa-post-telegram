@@ -14,4 +14,4 @@ def save_image(url, path, image_title, params=None):
     extension = get_extension(url)
     with open(f'{path}/{image_title}{extension}', 'wb') as file:
         file.write(response.content)
-    return None
+

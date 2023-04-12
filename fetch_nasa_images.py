@@ -15,13 +15,13 @@ def fetch_nasa_images(nasa_api_key):
     response.raise_for_status()
     images = response.json()
     for image in images:
-        if image['media_type'] == 'image':
-            url = image['hdurl'] if image['hdurl'] else image['url']
-            path = './images/nasa'
-            Path(path).mkdir(parents=True, exist_ok=True)
-            image_title = re.sub(r'\W', '', image['title'])
-            save_image(url, path, image_title)
-    return None
+        if not image['media_type'] == 'image':
+            return
+        url = image['hdurl'] if image['hdurl'] else image['url']
+        path = './images/nasa'
+        Path(path).mkdir(parents=True, exist_ok=True)
+        image_title = re.sub(r'\W', '', image['title'])
+        save_image(url, path, image_title)
 
 
 def main():

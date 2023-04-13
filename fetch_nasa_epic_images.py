@@ -11,9 +11,8 @@ def fetch_nasa_epic_images(nasa_api_key):
     url = 'https://api.nasa.gov/EPIC/api/natural'
     response = requests.get(url, params=params)
     response.raise_for_status()
-    nasa_response_data = response.json()
-    limit_images = 9
-    images = nasa_response_data[:limit_images]
+    images_limit = 9
+    images = response.json()[:images_limit]
     for image in images:
         year, month, day = image['date'].split()[0].split('-')
         image_title = image['image']
